@@ -11,8 +11,8 @@ class cube(object):
 
     def __init__(self, start, dirnx=1, dirny=0, color=(255, 0, 0)):
         self.pos = start
-        self.dirnx = 1
-        self.dirny = 0
+        self.dirnx = dirnx
+        self.dirny = dirny
         self.color = color
 
     def move(self, dirnx, dirny):
@@ -36,13 +36,12 @@ class cube(object):
 
 
 class snake(object):
-    body = []
-    turns = {}
 
     def __init__(self, color, pos):
         self.color = color
-        self.head = cube(pos)
-        self.body.append(self.head)
+        self.head = cube(pos, 0, 1)
+        self.body = [self.head]
+        self.turns = {}
         self.dirnx = 0
         self.dirny = 1
 
@@ -94,7 +93,7 @@ class snake(object):
                     c.move(c.dirnx, c.dirny)
 
     def reset(self, pos):
-        self.head = cube(pos)
+        self.head = cube(pos, 0, 1)
         self.body = []
         self.body.append(self.head)
         self.turns = {}
@@ -203,4 +202,5 @@ def main():
     pass
 
 
-main()
+if __name__ == "__main__":
+    main()
