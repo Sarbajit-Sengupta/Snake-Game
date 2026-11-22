@@ -48,7 +48,7 @@ class snake(object):
     def move(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                return False
 
             keys = pygame.key.get_pressed()
 
@@ -91,6 +91,8 @@ class snake(object):
                     c.pos = (c.pos[0], c.rows - 1)
                 else:
                     c.move(c.dirnx, c.dirny)
+
+        return True
 
     def reset(self, pos):
         self.head = cube(pos, 0, 1)
@@ -178,14 +180,15 @@ def main():
     win = pygame.display.set_mode((width, width))
     s = snake((255, 0, 0), (10, 10))
     snack = cube(randomSnack(rows, s), color=(0, 255, 0))
-    flag = True
 
     clock = pygame.time.Clock()
 
-    while flag:
+    while True:
         pygame.time.delay(50)
         clock.tick(10)
-        s.move()
+        if not s.move():
+            pygame.quit()
+            return
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0, 255, 0))
@@ -198,9 +201,6 @@ def main():
                 break
 
         redrawWindow(win)
-
-    pass
-
 
 if __name__ == "__main__":
     main()
